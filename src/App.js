@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import react, {useState, useEffect} from 'react'
+import axios from 'axios';
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
+  const [image, setImage] = useState([])
+  useEffect(() => {
+    loadUser();
+  }, [])
+  const loadUser = async () => {
+    const images = await axios.get('http://www.mocky.io/v2/5ecb5c353000008f00ddd5a0')
+   setImage(images.data)
+  } 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className='row'>
+      {image.map((image, index) =>(
+        
+          <div className='mb-10 col-sm-4 col-md-4 col-4'>
+          <img className="shadow" src={image.urls.raw} alt={`image_${image.id}`} 
+        height="400"
+        width="300"/>
+          </div> 
+      ))
+      }
+      </div>
+       </div>
   );
 }
 
